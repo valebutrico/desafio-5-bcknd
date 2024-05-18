@@ -1,0 +1,31 @@
+<h1>Chat</h1>
+<ul id="messages">
+  {{#each messages}}
+    <li><strong>{{this.user}}:</strong> {{this.message}}</li>
+  {{/each}}
+</ul>
+<form id="chat-form">
+  <input type="text" id="user" placeholder="Your email">
+  <input type="text" id="message" placeholder="Your message">
+  <button type="submit">Send</button>
+</form>
+
+<script>
+  document.getElementById('chat-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const user = document.getElementById('user').value;
+    const message = document.getElementById('message').value;
+
+    await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user, message }),
+    });
+
+    document.getElementById('user').value = '';
+    document.getElementById('message').value = '';
+    location.reload();
+  });
+</script>
